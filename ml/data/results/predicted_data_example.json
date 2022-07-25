@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "text": "text data",
+      "sentiment": "positive|negative|neutral|speech|skip",
+      "area": "area",
+      "level": "level",
+      "status": "status",
+      "url": [
+        {
+          "text": "word_1",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "technology": [
+        {
+          "text": "word_1",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "organization": [
+        {
+          "text": "word_1",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "person": [
+        {
+          "text": "word_1",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "location": [
+        {
+          "text": "word_1",
+          "start": 0,
+          "end": 1,
+          "address": "",
+          "address_type": "",
+          "lat": 0.0,
+          "lon": 0.0
+        }
+      ]
+    }
+  ]
+}

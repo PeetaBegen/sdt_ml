@@ -1,0 +1,8 @@
+processed 191387 tokens with 11307 phrases; found: 2858 phrases; correct: 279.
+accuracy:   9.38%; (non-O)
+accuracy:  89.86%; precision:   9.76%; recall:   2.47%; F1-score:   3.94%
+              URL: precision:   0.00%; recall:   0.00%; F1-score:   0.00%  2
+        ГЕОГРАФИЯ: precision:  10.55%; recall:   2.50%; F1-score:   4.04%  512
+      ОРГАНИЗАЦИЯ: precision:   6.51%; recall:   0.89%; F1-score:   1.57%  538
+       ТЕХНОЛОГИЯ: precision:  10.52%; recall:   7.27%; F1-score:   8.60%  1806
+         УЧАСТНИК: precision:   0.00%; recall:   0.00%; F1-score:   0.00%  0
