@@ -23,11 +23,14 @@ class GeocoderOSM:
         url = f'{self.url}q={query}&format={format}&limit={limit}'
         req = requests.get(url=url, verify=False).json()
 
-        if req[0]:
-            address = req[0]['display_name']
-            address_type = req[0]['type']
-            lat = req[0]['lat']
-            lon = req[0]['lon']
-            return {'address': address, 'address_type': address_type, 'lat': lat, 'lon': lon}
-        else:
-            return {'address': 'NO ADDRESS', 'address_type': 'NO TYPE', 'lat': -1, 'lon': -1}
+        try:
+            if req[0]:
+                address = req[0]['display_name']
+                address_type = req[0]['type']
+                lat = req[0]['lat']
+                lon = req[0]['lon']
+                return {'address': address, 'address_type': address_type, 'lat': lat, 'lon': lon}
+            else:
+                return {'address': 'NO ADDRESS', 'address_type': 'NO TYPE', 'lat': -1, 'lon': -1}
+        except IndexError:
+            return {'address': 'NO ADDRESS', 'address_type': 'NO TYPE', 'lat': -1, 'lon': -1, 'ERROR': IndexError}

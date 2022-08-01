@@ -1,29 +1,29 @@
-Model: "model_1"
+Model: "model_3"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
  text_layer (InputLayer)     [(None, 1)]               0         
                                                                  
- text_vectorization_1 (TextV  (None, 2000)             0         
+ text_vectorization_3 (TextV  (None, 2000)             0         
  ectorization)                                                   
                                                                  
  token_and_position_embeddin  (None, 2000, 32)         704000    
- g_2 (TokenAndPositionEmbedd                                     
+ g_4 (TokenAndPositionEmbedd                                     
  ing)                                                            
                                                                  
- transformer_block_2 (Transf  (None, 2000, 32)         10656     
+ transformer_block_4 (Transf  (None, 2000, 32)         10656     
  ormerBlock)                                                     
                                                                  
- global_average_pooling1d_1   (None, 32)               0         
+ global_average_pooling1d_3   (None, 32)               0         
  (GlobalAveragePooling1D)                                        
                                                                  
- dropout_10 (Dropout)        (None, 32)                0         
+ dropout_22 (Dropout)        (None, 32)                0         
                                                                  
- dense_10 (Dense)            (None, 20)                660       
+ dense_18 (Dense)            (None, 20)                660       
                                                                  
- dropout_11 (Dropout)        (None, 20)                0         
+ dropout_23 (Dropout)        (None, 20)                0         
                                                                  
- dense_11 (Dense)            (None, 10)                210       
+ dense_19 (Dense)            (None, 10)                210       
                                                                  
 =================================================================
 Total params: 715,526

@@ -4,38 +4,20 @@
 Основан на https://keras.io/examples/nlp/ner_transformers/
 """
 
-from keras import layers
-from ml.transformers import TransformerBlock, TokenAndPositionEmbedding
-from tensorflow import keras
-import os
 import json
-import pickle
-import numpy as np
-import tensorflow as tf
-from datasets import load_dataset
+import os
 from collections import Counter
-from ml.conlleval import evaluate
+
+import numpy as np
 import pymorphy2
+import tensorflow as tf
+from keras import layers
+from ml.conlleval import evaluate
 from ml.geocoder import GeocoderOSM
-import re
-import pyconll
-from sklearn.metrics import classification_report
+from ml.transformers import TransformerBlock, TokenAndPositionEmbedding
 from navec import Navec
 from slovnet import NER
-from natasha import (
-    Segmenter,
-    MorphVocab,
-
-    NewsEmbedding,
-    NewsMorphTagger,
-    NewsSyntaxParser,
-    NewsNERTagger,
-
-    PER,
-    NamesExtractor,
-
-    Doc
-)
+from tensorflow import keras
 
 
 def export_to_txt_file(export_file_path, data: list):
@@ -152,6 +134,8 @@ class NERModel(keras.Model):
     NER_SLOVNET = NER.load('./ml/data/slovnet_ner_news_v1.tar')
     NER_SLOVNET.navec(NAVEC)
     GEOCODER = GeocoderOSM()
+    with open('./ml/data/dict_for_pymorphy2.json', encoding='utf-8', errors='ignore') as file:
+        RIGHT_NAMES = json.load(file)  # type: dict
 
     def __init__(self, vocab_size=20000, max_len=128, embed_dim=32, num_heads=2, ffn_dim=32, vocabulary=None):
         super(NERModel, self).__init__()
@@ -354,20 +338,27 @@ class NERModel(keras.Model):
         mapping_tags = {'ORG': 'ОРГАНИЗАЦИЯ', 'PER': 'УЧАСТНИК', 'LOC': 'ГЕОГРАФИЯ'}
 
         markup = self.NER_SLOVNET(text)  # SpanMarkup(text='text', spans=[Span(start=0, stop=12, type='PER|ORG|LOC')])
-        result = []
+        ner_result = []
         for span in markup.spans:
             words = markup.text[span.start:span.stop].split(' ')
-            # приводим каждое слово к нормальной форме
             sentence = ''
-            for word in words:
-                sentence += self.MORPH.parse(word)[0].normal_form
+            for word in words:  # приводим каждое слово к нормальной форме в ед.ч. {'sing'} в им.падеже {'nomn'}
+                w = self.MORPH.parse(word)[0]
+                if w.tag.gender == 'femn':  # слово женского рода
+                    w = w.inflect({'femn', 'sing', 'nomn'}).word
+                elif {'sing', 'nomn'} in w.tag:
+                    w = w.inflect({'sing', 'nomn'}).word
+                else:
+                    w = w.normal_form
+                sentence += w
                 sentence += ' '
+            sentence = sentence.strip()
             if span.type == 'LOC':
-                coordinates = {'lat': 58, 'lon': 39}
-                # coordinates = self.GEOCODER.get_coordinates(query=word)
+                sentence = self.RIGHT_NAMES.get(sentence, sentence)  # получаем название региона РФ
+                coordinates = self.GEOCODER.get_coordinates(query=sentence)  # получаем координаты локации
             else:
                 coordinates = None
-            result.append({'word': sentence,
-                           'label': mapping_tags.get(span.type),
-                           'coordinates': coordinates})
-        return result
+            ner_result.append({'word': sentence,
+                               'label': mapping_tags.get(span.type),
+                               'coordinates': coordinates})
+        return ner_result

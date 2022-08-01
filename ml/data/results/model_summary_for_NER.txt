@@ -3,22 +3,22 @@ _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
  token_and_position_embeddin  multiple                 728576    
- g_3 (TokenAndPositionEmbedd                                     
+ g_5 (TokenAndPositionEmbedd                                     
  ing)                                                            
                                                                  
- transformer_block_3 (Transf  multiple                 21120     
+ transformer_block_5 (Transf  multiple                 21120     
  ormerBlock)                                                     
                                                                  
- dropout_14 (Dropout)        multiple                  0         
+ dropout_26 (Dropout)        multiple                  0         
                                                                  
- dense_14 (Dense)            multiple                  2112      
+ dense_22 (Dense)            multiple                  2112      
                                                                  
- dropout_15 (Dropout)        multiple                  0         
+ dropout_27 (Dropout)        multiple                  0         
                                                                  
- dense_15 (Dense)            multiple                  780       
+ dense_23 (Dense)            multiple                  780       
                                                                  
- string_lookup_4 (StringLook  multiple                 0 (unused)
- up)                                                             
+ string_lookup_10 (StringLoo  multiple                 0 (unused)
+ kup)                                                            
                                                                  
 =================================================================
 Total params: 752,588

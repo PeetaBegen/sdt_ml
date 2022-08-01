@@ -6,7 +6,6 @@
 """
 
 import pandas as pd
-from sdt_ml.settings import DATA_DIR
 from ml.geocoder import GeocoderOSM
 from ml.ner import NERModel
 from ml.sentiment_analysis import SentimentAnalysisModel
@@ -69,19 +68,19 @@ class MLService:
         return prediction
 
     def train_text_classification(self):
-        self.tcl_level = TextClassifierModel(vocab_size=20000, max_len=2000, embed_dim=32, num_heads=2,
+        tcl_model = TextClassifierModel(vocab_size=20000, max_len=2000, embed_dim=32, num_heads=2,
                                              ffn_dim=32, category='STATUS')
-        self.tcl_level.train(batch_size=8, epochs=3, train_size=0.3, test_size=0.1)
+        tcl_model.train(batch_size=8, epochs=10, train_size=0.8, test_size=0.2)
 
     def do_named_entity_recognition(self):
-        text = 'Павел Петров решил усилить СМЭВ в 2022 году в Иркутске'
+        text = 'Павел Петров и Лариса Мостовая решили усилить СМЭВ в 2022 году в Иркутске, ссылка http://www.irk.ru/'
         self.ner.do_slovnet_ner(text)  # Slovnet
         self.ner.predicts(text)
         return {'ner': 'NER prediction is done'}
 
     def train_named_entity_recognition(self):
-        self.ner = NERModel(vocab_size=20000, embed_dim=32, num_heads=4, ffn_dim=64)
-        self.ner.train(batch_size=8, epochs=3)
+        ner_model = NERModel(vocab_size=20000, embed_dim=32, num_heads=4, ffn_dim=64)
+        ner_model.train(batch_size=8, epochs=20)
 
     def do_sentiment_analysis(self):
         self.load_data(filename='./ml/data/test_example.csv')
