@@ -358,7 +358,7 @@ class NERModel(keras.Model):
                 coordinates = self.GEOCODER.get_coordinates(query=sentence)  # получаем координаты локации
             else:
                 coordinates = None
-            ner_result.append({'word': sentence,
+            ner_result.append({'word': str(sentence).title(),
                                'label': mapping_tags.get(span.type),
                                'coordinates': coordinates})
         return ner_result
