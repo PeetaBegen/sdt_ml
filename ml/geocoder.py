@@ -33,4 +33,4 @@ class GeocoderOSM:
             else:
                 return {'address': 'NO ADDRESS', 'address_type': 'NO TYPE', 'lat': -1, 'lon': -1}
         except IndexError:
-            return {'address': 'NO ADDRESS', 'address_type': 'NO TYPE', 'lat': -1, 'lon': -1, 'ERROR': IndexError}
+            return {'address': 'NO ADDRESS', 'address_type': 'NO TYPE', 'lat': -1, 'lon': -1, 'ERROR': str(IndexError)}
